@@ -1,6 +1,7 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
-SetWorkingDir A_ScriptDir
+
+; THIS IS VERSION 2.0.1 (Version checking is coming at some point?)
 
 ; Define processes to check.
 processes := ["vpc.exe", "VMWindow.exe", "vmsal.exe"]
@@ -75,5 +76,6 @@ update_status() {
 }
 
 ; Initialize.
+SetWorkingDir A_ScriptDir
 change_state states[1], False
 SetTimer update_status, states[1][4]
