@@ -1,0 +1,35 @@
+[Processes]
+
+~> vmsal.exe    - Windows Virtual PC Application Launcher (Portal to "Remote" Apps)
+~> VMWindow.exe - Windows Virtual PC (Full desktop session)
+~> vpc.exe      - Virtual PC Host Process (Background Service)
+
+
+
+[Decoded States]
+
+                        | vmsal      | VMWindow   | vpc
+------------------------|------------|------------|------------
+ Cold host boot         | Stopped    | Stopped    | Stopped
+ Direct desktop launch  | Stopped    | Running!   | Running!
+ Hibernation post-dtop  | Stopped    | Stopped    | Running!
+ Seamless app launch    | Running!   | Stopped    | Running!
+ 2nd seamless app       | Running!   | Stopped    | Running!    *Note: more apps != more vmsal's
+ Attempt app->desktop   | Running!   | Briefly... | Running!    *Note: VMWindow dies after msgbox
+ Seamless closed (now)  | Running!   | Stopped    | Running!    *Note: vmsal stays alive for a bit
+ Seamless closed (then) | Stopped?   | Stopped    | Running!    *Note: THIS TAKES FOREVER
+
+
+
+[Encoded States]
+
+ vmsal      | VMWindow   | vpc        |
+------------|------------|------------|------------------------
+ Stopped    | Stopped    | Stopped    | Stopped
+ Stopped    | Stopped    | Running!   | Backgrounded
+ Stopped    | Running!   | Stopped    | Starting Desktop
+ Stopped    | Running!   | Running!   | Running Desktop
+ Running!   | Stopped    | Stopped    | Starting Application(s)
+ Running!   | Stopped    | Running!   | Running Application(s)
+ Running!   | Running!   | Stopped    | Transitioning
+ Running!   | Running!   | Running!   | Transitioning
